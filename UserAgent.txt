@@ -1,0 +1,1 @@
+Mozilla/5.0 (Windows NT 10.0; Win64; x64; compatible; U; Zap Browser 0.0.1; +https://zap.sectly.online) Zap/0.0.1 (A Zapified Experience) AppleWebKit/537.36 (KHTML, like Gecko)
