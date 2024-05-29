@@ -1,0 +1,35 @@
+{
+  "name": "zapbrowser",
+  "version": "0.0.1",
+  "description": "Browsing WIth A Zapified Experience!",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "lint": "echo \"No linting configured\"",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --win"
+  },
+  "build": {
+    "appId": "com.electron.zapbrowser",
+    "productName": "ZapBrowser",
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
+    }
+  },
+  "keywords": [
+    "zap",
+    "browser",
+    "electron"
+  ],
+  "author": "Sectly@sectly.online",
+  "license": "BSL-1.0"
+}
