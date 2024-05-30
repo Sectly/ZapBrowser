@@ -108,7 +108,7 @@ const $APP = {
 }
 
 addCustomModule("util", util);
-addCustomModule(["logcon", "log"], wrappedLogcon);
+addCustomModule(["logcon", "logger", "log"], wrappedLogcon);
 addCustomModule(["suchdb", "database"], wrappedSuchDB);
 addCustomModule(["defaults", "gobals"], $APP);
 
