@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zap Browser</title>
+    <link rel="icon" href="https://sectly.online/CDN/MiniSploit.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@1.14.0/dist/full.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/kute.js@2.1.2/dist/kute.min.js"></script>
+    <style>
+        body {
+            @apply bg-gray-800 flex items-center justify-center min-h-screen;
+        }
+        .loading-icon {
+            width: 50px;
+            height: 50px;
+            background: url('https://sectly.online/CDN/MiniSploit.png') no-repeat center center;
+            background-size: contain;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="flex flex-col items-center">
+        <br>
+        <div class="loading-icon" id="loadingIcon"></div>
+        <ul class="steps">
+            <li class="step text-gray-400" id="stepUpdating"></li>
+            <li class="step text-gray-400" id="stepVerifying"></li>
+            <li class="step text-gray-400" id="stepCleaning"></li>
+            <li class="step text-gray-400" id="stepStarting"></li>
+        </ul>
+        <p class="text-gray-300 mt-4" id="statusText">Checking...</p>
+        <p class="text-gray-400 mt-2" id="progressText">0%</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animate the loading icon
+            const loadingIcon = document.getElementById('loadingIcon');
+            KUTE.fromTo(
+                loadingIcon,
+                { rotate: 0 },
+                { rotate: 360 },
+                { repeat: 999, duration: 2000, easing: 'easingLinear' }
+            ).start();
+            KUTE.fromTo(
+                loadingIcon,
+                { translateY: 0 },
+                { translateY: -20 },
+                { repeat: 999, yoyo: true, duration: 1000, easing: 'easingBounceOut' }
+            ).start();
+
+            // Steps and progress simulation
+            const steps = ['stepUpdating', 'stepVerifying', 'stepCleaning', 'stepStarting'];
+            let currentStep = 0;
+            let progress = 0;
+            const progressText = document.getElementById('progressText');
+
+            const updateInterval = setInterval(() => {
+                if (currentStep < steps.length) {
+                    document.getElementById(steps[currentStep]).classList.add('step-primary');
+                    document.getElementById(steps[currentStep]).classList.remove('text-gray-400');
+                    if (currentStep >= 0) {
+                        document.getElementById(`${steps[currentStep]}`).classList.add('text-gray-400');
+                        document.getElementById(`statusText`).innerText = `${steps[currentStep]}...`.replace("step", "");
+                    }
+                    currentStep++;
+                }
+
+                if (progress < 100) {
+                    progress += 25;
+                    progressText.textContent = `${progress}%`;
+                } else {
+                    clearInterval(updateInterval);
+                    progressText.textContent = '100%';
+                }
+            }, 2000); // Adjust the interval as needed
+        });
+    </script>
+</body>
+</html>

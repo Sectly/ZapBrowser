@@ -4,6 +4,7 @@ const util = require('util');
 const os = require('os');
 const logcon = require('logcon');
 const suchdb = require('@sectly-studios/suchdb');
+const { app } = require("electron");
 
 const directoryPath = __dirname;
 const files = fs.readdirSync(directoryPath).filter((file) => file !== 'index.js');
@@ -16,7 +17,13 @@ const modules = files.map((file) => {
 });
 
 function addCustomModule(name, module) {
-    modules.push({ [name]: module });
+    if (Array.isArray(name)) {
+        name.forEach(function(element) {
+            modules.push({ [element]: module });
+        })
+    } else {
+        modules.push({ [name]: module });
+    }
 }
 
 let sessionId = null;
@@ -91,8 +98,18 @@ const wrappedSuchDB = function (name, key) {
     });
 }
 
-addCustomModule("util", util);
-addCustomModule("logcon", wrappedLogcon);
-addCustomModule("suchdb", wrappedSuchDB);
+const $APP = {
+    LOADING_WINDOW_WIDTH: 300,
+    LOADING_WINDOW_HEIGHT: process.platform === "darwin" ? 300 : 350,
+    SETTINGS: {
+        DeveloperMode: process.env["DeveloperMode"] || false,
+        BypassUpdateProcess: true,
+    }
+}
 
-module.exports = { ...Object.assign({}, ...modules ), addCustomModule };
+addCustomModule("util", util);
+addCustomModule(["logcon", "log"], wrappedLogcon);
+addCustomModule(["suchdb", "database"], wrappedSuchDB);
+addCustomModule(["defaults", "gobals"], $APP);
+
+module.exports = { ...Object.assign({}, ...modules), addCustomModule };
